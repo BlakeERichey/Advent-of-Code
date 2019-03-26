@@ -1,26 +1,76 @@
+import cProfile, pstats, io
+
+
+
+def profile(fnc):
+    
+    """A decorator that uses cProfile to profile a function"""
+    
+    def inner(*args, **kwargs):
+        
+        pr = cProfile.Profile()
+        pr.enable()
+        retval = fnc(*args, **kwargs)
+        pr.disable()
+        s = io.StringIO()
+        sortby = 'cumulative'
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats()
+        print(s.getvalue())
+        return retval
+
+    return inner
+
 def read_file():
     with open('input.txt') as my_file:
         read_data = my_file.read()
         return read_data.splitlines() #split by line
 
+#---------------Preoptimization - runtime: 162.18 Secs--------------
+# @profile
+# def main():
+#     print("Calculating Checksum...")
+#     nums = read_file()
+#     past = [0]
+#     current = 0
+#     index = 0
+#     run = True
+#     accum = 0
+#     while run:
+#         if index >= len(nums):
+#             index = 0
+#         else:
+#             current += int(nums[index])
+#             past.append(current)
+#             run = past.count(current) < 2
+#             index += 1
+#         accum += 1
+#     print(current)
+#     print(accum)
+#     #print(past)
+
+
+#---------------Post optimization - Runtime: .194 seconds---------------
+@profile
 def main():
+    print("Calculating Checksum...")
     nums = read_file()
-    past = [0]
+    past = {0}
     current = 0
     index = 0
     run = True
-    accum = 0
+    length = len(nums)
     while run:
-        if index >= len(nums):
+        if index >= length:
             index = 0
         else:
             current += int(nums[index])
-            past.append(current)
-            run = past.count(current) < 2
+            if current in past:
+              run = False
+            past.add(current)
             index += 1
-        accum += 1
     print(current)
-    print(accum)
+    print(len(past))
     #print(past)
 
 main()
