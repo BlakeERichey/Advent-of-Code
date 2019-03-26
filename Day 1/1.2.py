@@ -50,21 +50,24 @@ def read_file():
 #     #print(past)
 
 
-#---------------Post optimization - Runtime: .194 seconds---------------
+#---------------Post optimization - Runtime: .129 seconds---------------
 @profile
 def main():
     print("Calculating Checksum...")
-    nums = read_file()
-    past = {0}
+    numStr = read_file()
+    nums   = []             #number as ints from input.txt
+    for num in numStr:
+      nums.append(int(num)) #convert to ints, for speed in comparison later
+    past    = {0}           #previous state values
     current = 0
-    index = 0
-    run = True
-    length = len(nums)
+    index   = 0
+    run     = True
+    length  = len(nums)
     while run:
         if index >= length:
             index = 0
         else:
-            current += int(nums[index])
+            current += nums[index]
             if current in past:
               run = False
             past.add(current)
