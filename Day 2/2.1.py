@@ -1,5 +1,5 @@
 def read_file():
-    with open('input.txt') as my_file:
+    with open('./Day 2/input.txt') as my_file:
         read_data = my_file.read()
         return read_data.splitlines() #split by line
 
@@ -15,7 +15,7 @@ def main():
             numDouble += 1
         if( letters.count(3) > 0 ):
             numTriple += 1
-    print(numDouble,  numTriple)
-    print(numDouble * numTriple) #checksum
+    print("Doubles:", numDouble, "\nTriples:", numTriple)
+    print("Checksum:", numDouble * numTriple) #checksum
 
 main()

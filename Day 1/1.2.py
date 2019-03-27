@@ -50,10 +50,9 @@ def read_file():
 #     #print(past)
 
 
-#---------------Post optimization - Runtime: .129 seconds---------------
+#---------------Post optimization - Runtime: .122 seconds---------------
 @profile
 def main():
-    print("Calculating Checksum...")
     numStr = read_file()
     nums   = []             #number as ints from input.txt
     for num in numStr:
@@ -72,8 +71,7 @@ def main():
               run = False
             past.add(current)
             index += 1
-    print(current)
-    print(len(past))
-    #print(past)
+    return current
 
-main()
+print("Calculating First Repeat...")
+print("First Repeat:", main())
